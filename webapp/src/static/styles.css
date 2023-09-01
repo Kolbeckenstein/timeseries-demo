@@ -1,3 +1,45 @@
-h1 {
-    color: green;
+body {
+    background-color: #f4f0f0;
+    font-family: Arial, Helvetica, sans-serif
 }
+
+.container {
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-left: 15%;
+    margin-right: 15%;
+    display: block;
+    text-align: center;
+    height: 1000px
+}
+
+.contact {
+    padding-top: 40px;
+}
+
+ul {
+    list-style-type: none;
+    margin: -10;
+    padding: 0;
+    overflow: hidden;
+    background-color: #e6dede;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #cec2c2;
+}
+
