@@ -1,0 +1,17 @@
+# From base python 3.11 image
+FROM python:3.11
+
+# Create a top level working directory in container 
+WORKDIR /code
+
+# copy dependency list to container directory
+COPY ./requirements.txt /code/requirements.txt
+
+# install dependencies
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# Copy code to working directory source folder
+COPY ./src /code/src
+
+# Run the app through uvicorn, serving on port 80
+# CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "80"]
