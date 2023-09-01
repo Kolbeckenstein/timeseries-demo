@@ -10,6 +10,8 @@ services:
       - ./webapp/:/code
     ports:
       - 8001:8000
+    networks:
+    - timeseries-demo
 
   datacollector:
     build: ./datacollector
@@ -24,9 +26,16 @@ services:
       WEATHER_API_KEY: ${WEATHER_API_KEY}
       WEATHER_API_URL: ${WEATHER_API_URL}
       ZIP_CODE: ${ZIP_CODE}
+      PGHOST: ${PGHOST}
+      PGUSER: ${PGUSER}
+      PGPORT: ${PGPORT}
+      PGPASSWORD: ${PGPASSWORD}
+      PGDATABASE: $PGDATABASE
+    networks:
+    - timeseries-demo
 
   timescaledb:
-    image: timescale/timescaledb:latest-pg12
+    image: timescale/timescaledb:latest-pg15
     restart: always
     ports:
       - 5432:5432
@@ -35,3 +44,9 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - /data/timescaledb:/var/lib/postgresql/data
+    networks:
+    - timeseries-demo
+
+networks:
+  timeseries-demo:
+    driver: bridge
