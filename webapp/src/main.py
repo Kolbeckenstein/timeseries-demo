@@ -5,6 +5,8 @@ from fastapi.templating import Jinja2Templates
 
 from fastapi import FastAPI
 
+from .timescaledb_client import fetch_weather
+
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="src/static"), name="static")
@@ -18,8 +20,9 @@ def main_page(request: Request, response_class=HTMLResponse):
 def content_page(request: Request, response_class=HTMLResponse):
     return templates.TemplateResponse("content.html", {"request": request})
 
-
-
+@app.get("/api/weather_hours")
+def get_weather_hours(request: Request):
+    return fetch_weather() 
 
 
 

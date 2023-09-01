@@ -12,6 +12,12 @@ services:
       - 8001:8000
     networks:
     - timeseries-demo
+    environment:
+      PGHOST: ${PGHOST}
+      PGUSER: ${PGUSER}
+      PGPORT: ${PGPORT}
+      PGPASSWORD: ${PGPASSWORD}
+      PGDATABASE: $PGDATABASE
 
   datacollector:
     build: ./datacollector
