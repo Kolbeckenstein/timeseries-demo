@@ -29,6 +29,11 @@ def attempt_create_table_if_not_exists():
     cursor.close()
 
 def insert_weather_hours(weather_hours: list[WeatherHour]) -> None:
+    """Inserts weather data into timescaledb. 
+    
+    Note! Due to time constraints, was unable to implement de-duping logic.
+    Repeat runs of collet will duplicate data in database.
+    """
     conn = psycopg2.connect("")
     cursor = conn.cursor()
     for hour in weather_hours:

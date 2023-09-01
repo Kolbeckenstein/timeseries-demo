@@ -7,7 +7,7 @@ from fastapi import FastAPI
 
 from .weather_models import TimeseriesOptions
 
-from .timescaledb_client import fetch_weather
+from .timescaledb_client import fetch_weather, fetch_timeseries_weather
 
 app = FastAPI()
 
@@ -31,5 +31,5 @@ def get_weather_hours(request: Request):
 
 @app.post("/api/weather_timeseries")
 def weather_timeseries(timeseries_options: TimeseriesOptions):
+    return fetch_timeseries_weather(timeseries_options)
 
-    print(timeseries_options)

@@ -17,26 +17,61 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             
             <script>
-            const ctx = document.getElementById('myChart');
-            
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                }]
-                },
-                options: {
-                scales: {
-                    y: {
-                    beginAtZero: true
+
+            fetch("/api/weather_timeseries", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'unit': "Imperial", 'timespan': "Daily"})
+            })
+            .then(res => res.json())
+            .then(res => {
+                return {
+                    times: res.map(i => i.time),
+                    temps: res.map(i => i.temp),
+                    winds: res.map(i => i.wind_speed),
+                    rains: res.map(i => i.precip)
+                }
+            })
+            .then(res => {
+                console.log(res)
+
+                const ctx = document.getElementById('myChart');
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                    labels: res.times,
+                    datasets: [
+                        {
+                            label: 'Average Temperature',
+                            data: res.temps,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Average Wind Speed',
+                            data: res.winds,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Average Rainfall',
+                            data: res.rains,
+                            borderWidth: 1
+                        },
+                    ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
                     }
-                }
-                }
+                });
             });
+
             </script>
         {% else %}
         <div class="contact">
