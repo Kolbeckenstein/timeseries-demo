@@ -23,6 +23,16 @@ def fetch_weather() -> None:
             is_future=result[7]
         ) for result in results
     ]
+
+def fetch_latest():
+    conn = psycopg2.connect("")
+    cursor = conn.cursor()
+    query = "SELECT time FROM weather_hour where is_future = 'false' order by time DESC limit 1;"
+    cursor.execute(query)
+    results = cursor.fetchone()
+    cursor.close()
+    print(results)
+    return results[0]
         
 def fetch_timeseries_weather(timeseries_options: TimeseriesOptions) -> None:
     """Fetches data, grouping by either day or hour, and returns it in either imperial or metric units.

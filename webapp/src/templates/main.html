@@ -17,6 +17,11 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             
             <script>
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+
+            const unit = urlParams.has('unit')  ? urlParams.get('unit') : 'Imperial'
+            const timespan = urlParams.has('timespan')  ? urlParams.get('timespan') : 'Daily'
 
             fetch("/api/weather_timeseries", {
             method: 'POST',
@@ -24,7 +29,7 @@
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({'unit': "Imperial", 'timespan': "Daily"})
+            body: JSON.stringify({'unit': unit, 'timespan': timespan})
             })
             .then(res => res.json())
             .then(res => {
@@ -71,8 +76,40 @@
                     }
                 });
             });
-
             </script>
+
+            <form>
+                <div class="fieldsetContainer">
+                    <fieldset>
+                    <legend>Please select your preferred contact method:</legend>
+                    <div>
+                        <input type="radio" id="unitChoice1" name="unit" value="Imperial" />
+                        <label for="unitChoice1">Imperial (F, mph, in)</label>
+                
+                        <input type="radio" id="unitChoice2" name="unit" value="Metric" />
+                        <label for="unitChoice2">Metric (C, kph, mm)</label>
+                    </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Please select your preferred contact method:</legend>
+                        <div>
+                            <input type="radio" id="spanChoice1" name="timespan" value="Daily" />
+                            <label for="spanChoice1">Daily</label>
+                    
+                            <input type="radio" id="spanChoice2" name="timespan" value="Hourly" />
+                            <label for="spanChoice2">Hourly</label>
+                        </div>
+                    </fieldset>
+
+                    <div>
+                        <button type="submit">Submit</button>
+                    </div>
+                </div>
+
+
+            </form>
+
         {% else %}
         <div class="contact">
             <h1>Page by: Michael Kolbeck</h1>
