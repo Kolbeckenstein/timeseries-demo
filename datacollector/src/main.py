@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi import FastAPI
 
 from .weather_client import get_historical_weather_hours, get_forecast_hours
-from .timescaledb_client import attempt_create_table_if_not_exists
+from .timescaledb_client import attempt_create_table_if_not_exists, insert_weather_hours
 
 #Create the timescaledb table
 attempt_create_table_if_not_exists()
@@ -20,5 +20,6 @@ def collect_data():
         a single format and saving it to the timescale db.
     """
     weather_hours = get_historical_weather_hours() + get_forecast_hours()
-    print(weather_hours)
+    print(f"Retreived weather hours: {weather_hours}")
+    insert_weather_hours(weather_hours)
     return 200
