@@ -14,7 +14,24 @@ services:
   datacollector:
     build: ./datacollector
     command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+    depends_on:
+      - timescaledb
     volumes:
       - ./datacollector/:/code
     ports:
-      - 8002:8000   
+      - 8002:8000
+    environment:
+      WEATHER_API_KEY: ${WEATHER_API_KEY}
+      WEATHER_API_URL: ${WEATHER_API_URL}
+      ZIP_CODE: ${ZIP_CODE}
+
+  timescaledb:
+    image: timescale/timescaledb:latest-pg12
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: timescaledb
+      POSTGRES_PASSWORD: password
+    volumes:
+      - /data/timescaledb:/var/lib/postgresql/data
