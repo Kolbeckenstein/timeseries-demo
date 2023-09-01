@@ -13,6 +13,16 @@ templates = Jinja2Templates(directory="src/templates")
 @app.get("/")
 def main_page(request: Request, response_class=HTMLResponse):
     return templates.TemplateResponse("main.html", {"request": request})
+
+@app.get("/content")
+def content_page(request: Request, response_class=HTMLResponse):
+    return templates.TemplateResponse("content.html", {"request": request})
+
+
+
+
+
+
 # def read_root():
 #     return {"Hello": "World"}
 
